@@ -11,10 +11,34 @@ from PyQt5.QtCore import *
 
 import time
 
+
+class Worker(QRunnable):
+    '''''
+    worker thread
+    '''
+    # @pyqtslot()
+    def __init__(self,fn,*args,**kwargs):
+        super(Worker,self).__init__()
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        
+    def run(self):
+        '''
+        execute the runner function with passed self.args,self.kwargs
+        '''
+        # print(f"args is { type(self.args)} ")
+        # print(f"kwargs is {self.kwargs} ")
+        if self.args ==() and self.kwargs == {} : 
+            self.fn()
+        print("start a thread with {fn}")
+
+
 class MainWindow(QMainWindow):
     def __init__(self, *arg, **kwargs):
         super(MainWindow,self).__init__(*arg,**kwargs)
-        
+        self.threadpool = QThreadPool()
+        print(f"mulithreading with maximul {self.threadpool.maxThreadCount()} threads ")
         self.counter = 0
         layout = QVBoxLayout()
         self.l = QLabel("start")
@@ -34,14 +58,19 @@ class MainWindow(QMainWindow):
         self.show()
         
     def change_message(self):
-        self.message = "oh no"
-    def  oh_no(self):
         self.message = "pressed"
-        for n in range(100):
-            time.sleep(0.1)
-            self.l.setText(self.message)
-            QApplication.processEvents()
+        worker =  Worker((lambda : time.sleep(3)))
+        self.threadpool.start(worker)
+    def hello_print(self):
+        print("no danger, nothing happened")
+    def  oh_no(self):
+        # self.message = "pressed"
+        worker =  Worker(self.hello_print)
+        self.threadpool.start(worker)
+
             
+
+    
 app = QApplication([])
 window = MainWindow()
 app.exec_()
