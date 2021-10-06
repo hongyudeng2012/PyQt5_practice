@@ -27,11 +27,12 @@ class MyMainWindow(QtWidgets.QMainWindow):
         #  lambda create an enclosure,connect to self prevent garbage collector
         # https://newbedev.com/using-lambda-expression-to-connect-slots-in-pyqt
         # self.windowTitleChanged.connect(lambda x:self.my_custom_fn())
+        self.windowTitleChanged.connect(self.my_custom_fn)# equivalent to the above line
 
         # SIGNAL: The connected function will be called wheever the window title is changed
         # the new title is passed to the function and replaced the default parameter. extra
         # data is passed from within the lambda
-        self.windowTitleChanged.connect(lambda x:self.my_custom_fn(x,10))
+        # self.windowTitleChanged.connect(lambda x:self.my_custom_fn(x,10))
 
         self.setWindowTitle("My first PyQt5 App")
         
