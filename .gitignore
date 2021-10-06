@@ -1,0 +1,14 @@
+# MCDSpy
+.idea/*
+*__pycache__*
+Archive/*
+DataLogs/*
+ProjectFiles/*
+build/*
+dist/*
+
+
+# Files
+*.bak
+*.msi
+venv/
