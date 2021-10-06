@@ -28,6 +28,16 @@ class MyMainWindow(QtWidgets.QMainWindow):
         # to take up all the space in the window by default
         self.setCentralWidget(label)
         
+        toolbar = QtWidgets.QToolBar("my main toolbar")
+        self.addToolBar(toolbar)
+        
+        button_action = QtWidgets.QAction("your button",self)
+        button_action.setStatusTip("this is your button")
+        button_action.triggered.connect(self.onMyToolBarButtonClick)
+        toolbar.addAction(button_action)
+    def onMyToolBarButtonClick(self,s):
+        print("click",s)
+        
 #  you need one and only one QApplication instance per application. it is act as event scheduler
 #  pass in sys.argv to allow command line arguments for your app
 app = QtWidgets.QApplication (sys.argv)
